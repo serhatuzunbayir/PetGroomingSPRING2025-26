@@ -9,16 +9,16 @@ A comprehensive, integrated system combining Web and Desktop platforms to manage
 **Barış Dursun** - 20220601022 
 
 ## 🛠️ 1. Functional Requirements
-1. **Client and Pet Management (CRUD):** Staff must be able to create, update, and delete records for new clients and their pets within the clinic database.
-2. **Pet Profiling:** Staff shall be able to define multiple pets (name, species, age, gender) for a single client and establish a one-to-many relationship between them.
-3. **Customer Appointment Panel:** Customers must be able to log in via the web interface to schedule "Veterinary" or "Grooming" appointments by selecting their registered pet and an available time slot.
-4. **Appointment Status Management:** Staff shall have the authority to update appointment statuses as "Pending", "Completed", or "Cancelled" for both web-initiated and manual entries.
-5. **Dynamic Appointment Filtering (LINQ):** Staff must be able to perform fast filtering within the appointment list (e.g., "Today's Appointments" or "Grooming Only") using LINQ queries.
-6. **Personalized Appointment Tracking (LINQ):** Customers shall be able to view their own pets' past and upcoming appointments via the web panel, filtered using LINQ.
-7. **Digital Pet Record & Clinical Notes:** Upon completion of an appointment, staff must be able to add persistent medical or grooming notes (e.g., "Rabies vaccine administered") to the pet's profile.
-8. **Service Billing and Payment Entry:** Staff shall be able to enter service fees and record payment data for appointments marked as "Completed".
+1. **Client and Pet Management (Desktop - CRUD):** Staff must be able to create, update, and delete records for new clients and their pets within the clinic database.
+2. **Pet Profiling(Desktop):** Staff shall be able to define multiple pets (name, species, age, gender) for a single client and establish a one-to-many relationship between them.
+3. **Customer Appointment Panel(Web):** Customers must be able to log in via the web interface to schedule "Veterinary" or "Grooming" appointments by selecting their registered pet and an available time slot.
+4. **Appointment Status Management(Desktop):** Staff shall have the authority to update appointment statuses as "Pending", "Completed", or "Cancelled" for both web-initiated and manual entries.
+5. **Dynamic Appointment Filtering (LINQ - Desktop):** Staff must be able to perform fast filtering within the appointment list (e.g., "Today's Appointments" or "Grooming Only") using LINQ queries.
+6. **Personalized Appointment Tracking (LINQ - Web):** Customers shall be able to view their own pets' past and upcoming appointments via the web panel, filtered using LINQ.
+7. **Digital Pet Record & Clinical Notes(Desktop):** Upon completion of an appointment, staff must be able to add persistent medical or grooming notes (e.g., "Rabies vaccine administered") to the pet's profile.
+8. **Service Billing and Payment Entry(Desktop):** Staff shall be able to enter service fees and record payment data for appointments marked as "Completed".
 9. **Real-Time Notification Triggers (Delegates):** The system must use C# Delegate/Event structures to trigger visual alerts on both platforms whenever a new appointment is booked or cancelled.
-10. **Operational Dashboard:** Upon startup, the application shall display a summary of daily total appointments, pending tasks, and estimated daily revenue.
+10. **Operational Dashboard(Desktop):** Upon startup, the application shall display a summary of daily total appointments, pending tasks, and estimated daily revenue.
 
 ## ⚡ 2. Non-Functional Requirements
 1. **Data Synchronization (Consistency):** An appointment booked via the Web interface must be visible on the Staff Desktop panel within a maximum of 2 seconds.
