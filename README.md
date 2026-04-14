@@ -22,9 +22,12 @@ A comprehensive, integrated system combining Web and Desktop platforms to manage
 
 ## ⚡ 2. Non-Functional Requirements
 1. **Data Synchronization (Consistency):** An appointment booked via the Web interface must be visible on the Staff Desktop panel within a maximum of 2 seconds.
-2.**Access Control (Authorization):** While customers can only access their own pet data, financial records and the full clinic calendar must be restricted to authorized staff (Role-Based Access Control).
+2. **Access Control (Authorization):** While customers can only access their own pet data, financial records and the full clinic calendar must be restricted to authorized staff (Role-Based Access Control).
+
 3. **Query Performance:** LINQ search and listing operations must return results in under 2 seconds, even if the total database records exceed 5,000.
+   
 4. **User Experience (UI/UX):** The system must support keyboard shortcuts for rapid data entry by staff, while the customer interface must be fully Responsive for mobile devices.
+
 5. **Robust Error Handling (Exception Handling):** In the event of database connection failures or invalid data entry, the system must not crash and should display user-friendly error messages instead of technical codes.
 
 ---
