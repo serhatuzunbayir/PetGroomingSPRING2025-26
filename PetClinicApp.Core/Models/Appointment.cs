@@ -3,7 +3,7 @@ namespace PetClinicApp.Core.Models;
 // Randevu Türleri: Veteriner veya Bakım (Grooming) 
 public enum AppointmentType { Veterinary, Grooming }
 
-// Randevu Durumları [cite: 13]
+// Randevu Durumları 
 public enum AppointmentStatus { Pending, Completed, Cancelled }
 
 public class Appointment
