@@ -109,4 +109,92 @@ public class ClinicService
             context.SaveChanges();
         }
     }
-}
+    // ==========================================
+    // 4. DELEGATES & EVENTS 
+    // ==========================================
+
+    // Delegate definition
+    public delegate void ClinicNotifyHandler(string message, object entity);
+
+    // Two separate events for new record creation and deletion.
+    public event ClinicNotifyHandler OnAppointmentCreated;
+    public event ClinicNotifyHandler OnAppointmentDeleted;
+
+    /// Adds an appointment and triggers an event if successful.
+    public void AddAppointmentWithNotification(Appointment appointment)
+    {
+        AddAppointment(appointment); 
+        
+        // Event triggering (Requirement: Notifications)
+        OnAppointmentCreated?.Invoke($" A new appointment has been added for {appointment.AppointmentDate}!", appointment);
+    }
+
+    /// Deletes the appointment and triggers an event if successful.
+    public void DeleteAppointmentWithNotification(int appointmentId)
+    {
+        using var context = new AppDbContext();
+        var appointment = context.Appointments.Find(appointmentId);
+        
+        if (appointment != null)
+        {
+            DeleteAppointment(appointmentId); 
+            
+            // Event triggering (Requirement: Triggering updates)
+            OnAppointmentDeleted?.Invoke(" Appointment has been successfully removed from the system.", appointment);
+        }
+    }
+
+    // ==========================================
+    // 5. LINQ QUERIES 
+    // ==========================================
+
+    /// Filters today's appointments and orders them by date.
+    /// (Requirement: LINQ Filtering & Ordering)
+    public List<Appointment> GetTodaysAppointments()
+    {
+        using var context = new AppDbContext();
+        return context.Appointments
+            .Include(a => a.Pet)
+                .ThenInclude(p => p.Client) // Include related tables (Join)
+            .Where(a => a.AppointmentDate.Date == DateTime.Today) // Filtering
+            .OrderBy(a => a.AppointmentDate) // Ordering
+            .ToList();
+    }
+
+    /// Searches by client first name or last name.
+    /// (Requirement: LINQ Search functionality)
+    public List<Client> SearchClients(string term)
+    {
+        if (string.IsNullOrWhiteSpace(term)) return GetAllClients();
+
+        using var context = new AppDbContext();
+        return context.Clients
+            .Where(c => c.FirstName.ToLower().Contains(term.ToLower()) || 
+                        c.LastName.ToLower().Contains(term.ToLower())) // Filtering
+            .OrderBy(c => c.FirstName) // Ordering
+            .ToList();
+    }
+
+    /// Calculates summary data for the clinic (Total earnings and number of pets).
+    /// (Requirement: LINQ Aggregating)
+    public string GetClinicSummary()
+    {
+        using var context = new AppDbContext();
+        
+        // LINQ Sum and Count operations
+        decimal totalEarnings = context.Appointments.Where(a => a.IsPaid).Sum(a => a.ServiceFee);
+        int totalPets = context.Pets.Count();
+
+        return $"There are {totalPets} registered pets in the clinic. Total Earnings: {totalEarnings:C2}";
+    }
+
+    /// Retrieves all pets belonging to a specific client.
+    public List<Pet> GetPetsByClientId(int clientId)
+    {
+        using var context = new AppDbContext();
+        return context.Pets
+            .Where(p => p.ClientId == clientId)
+            .OrderBy(p => p.Name)
+            .ToList();
+    }
+    }
