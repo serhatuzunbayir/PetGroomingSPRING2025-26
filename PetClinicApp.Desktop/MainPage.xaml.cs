@@ -1,23 +1,59 @@
-﻿namespace PetClinicApp.Desktop;
+using PetClinicApp.Core.Services;
+
+namespace PetClinicApp.Desktop;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private readonly ClinicService _service = new();
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
+    }
 
-	private void OnCounterClicked(object? sender, EventArgs e)
-	{
-		count++;
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadDashboard();
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+    private void LoadDashboard()
+    {
+        try
+        {
+            var clients = _service.GetAllClients();
+            var pets = _service.GetAllPets();
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+            LblTotalClients.Text = clients.Count.ToString();
+            LblTotalPets.Text = pets.Count.ToString();
+
+            // Calculate total earnings from paid appointments
+            var summary = _service.GetClinicSummary();
+            LblClinicSummary.Text = summary;
+
+            // Extract earnings from appointments
+            var appointments = _service.GetAllAppointments();
+            decimal totalEarnings = 0;
+            foreach (var a in appointments)
+            {
+                if (a.IsPaid)
+                    totalEarnings += a.ServiceFee;
+            }
+            LblTotalEarnings.Text = $"${totalEarnings:F2}";
+        }
+        catch (Exception ex)
+        {
+            LblClinicSummary.Text = $"Error loading data: {ex.Message}";
+        }
+    }
+
+    private async void OnGoToClientsClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//ClientsPage");
+    }
+
+    private async void OnGoToPetsClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//PetsPage");
+    }
 }

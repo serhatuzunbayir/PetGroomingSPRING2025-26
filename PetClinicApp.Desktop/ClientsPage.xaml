@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PetClinicApp.Desktop.ClientsPage"
+             Title="Clients">
+
+    <Grid Padding="20" ColumnDefinitions="350,*" ColumnSpacing="20">
+
+        <!-- LEFT PANEL: Client Form -->
+        <Border Grid.Column="0"
+                Stroke="{StaticResource Gray200}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="20">
+            <ScrollView>
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="👤 Client Information"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Tertiary}" />
+
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}" />
+
+                    <!-- First Name -->
+                    <Label Text="First Name" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryFirstName"
+                           Placeholder="Enter first name"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <!-- Last Name -->
+                    <Label Text="Last Name" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryLastName"
+                           Placeholder="Enter last name"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <!-- Phone Number -->
+                    <Label Text="Phone Number" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryPhone"
+                           Placeholder="Enter phone number"
+                           Keyboard="Telephone"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <!-- Email -->
+                    <Label Text="Email" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryEmail"
+                           Placeholder="Enter email address"
+                           Keyboard="Email"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,5" />
+
+                    <!-- Action Buttons -->
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="auto,auto" ColumnSpacing="10" RowSpacing="10">
+                        <Button Grid.Row="0" Grid.Column="0"
+                                x:Name="BtnSave"
+                                Text="💾 Save"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                Clicked="OnSaveClicked" />
+                        <Button Grid.Row="0" Grid.Column="1"
+                                x:Name="BtnUpdate"
+                                Text="✏️ Update"
+                                BackgroundColor="{StaticResource Warning}"
+                                TextColor="White"
+                                IsEnabled="False"
+                                Clicked="OnUpdateClicked" />
+                        <Button Grid.Row="1" Grid.Column="0"
+                                x:Name="BtnDelete"
+                                Text="🗑️ Delete"
+                                BackgroundColor="{StaticResource Danger}"
+                                TextColor="White"
+                                IsEnabled="False"
+                                Clicked="OnDeleteClicked" />
+                        <Button Grid.Row="1" Grid.Column="1"
+                                x:Name="BtnClear"
+                                Text="🔄 Clear"
+                                BackgroundColor="{StaticResource Gray400}"
+                                TextColor="White"
+                                Clicked="OnClearClicked" />
+                    </Grid>
+
+                    <!-- Status Label -->
+                    <Label x:Name="LblStatus"
+                           Text=""
+                           FontSize="13"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+
+        <!-- RIGHT PANEL: Client List -->
+        <Border Grid.Column="1"
+                Stroke="{StaticResource Gray200}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="20">
+            <VerticalStackLayout Spacing="12">
+
+                <Label Text="📋 Client List"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Tertiary}" />
+
+                <!-- Search Bar -->
+                <SearchBar x:Name="SearchBarClients"
+                           Placeholder="Search by name..."
+                           SearchButtonPressed="OnSearchClicked"
+                           TextChanged="OnSearchTextChanged" />
+
+                <BoxView HeightRequest="1" Color="{StaticResource Gray200}" />
+
+                <!-- Client List -->
+                <CollectionView x:Name="ClientListView"
+                                SelectionMode="Single"
+                                SelectionChanged="OnClientSelected">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Padding="40">
+                            <Label Text="👤" FontSize="48" HorizontalOptions="Center" />
+                            <Label Text="No clients found"
+                                   FontSize="16"
+                                   TextColor="{StaticResource Gray400}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Add a new client using the form on the left"
+                                   FontSize="13"
+                                   TextColor="{StaticResource Gray300}"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4"
+                                    Padding="14"
+                                    Stroke="{StaticResource Gray200}"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="1"
+                                    BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#2A2A2A}">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="auto,auto">
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Tertiary}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="FirstName" />
+                                                <Binding Path="LastName" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label Grid.Row="0" Grid.Column="1"
+                                           Text="{Binding Pets.Count, StringFormat='{0} pets'}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Primary}"
+                                           VerticalOptions="Center" />
+                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Gray500}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="📞 {0}  |  ✉️ {1}">
+                                                <Binding Path="PhoneNumber" />
+                                                <Binding Path="Email" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Record Count -->
+                <Label x:Name="LblRecordCount"
+                       Text="0 records"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray400}"
+                       HorizontalOptions="End" />
+
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

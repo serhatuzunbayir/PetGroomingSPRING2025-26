@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PetClinicApp.Desktop.PetsPage"
+             Title="Pets">
+
+    <Grid Padding="20" ColumnDefinitions="380,*" ColumnSpacing="20">
+
+        <!-- LEFT PANEL: Pet Form -->
+        <Border Grid.Column="0"
+                Stroke="{StaticResource Gray200}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="20">
+            <ScrollView>
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="🐾 Pet Information"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Tertiary}" />
+
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}" />
+
+                    <!-- Owner Selection -->
+                    <Label Text="Owner *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Picker x:Name="PickerOwner"
+                            Title="Select owner..."
+                            ItemDisplayBinding="{Binding DisplayName}" />
+
+                    <!-- Pet Name -->
+                    <Label Text="Pet Name *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryPetName"
+                           Placeholder="Enter pet name"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <!-- Species -->
+                    <Label Text="Species *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Picker x:Name="PickerSpecies"
+                            Title="Select species...">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Dog</x:String>
+                                <x:String>Cat</x:String>
+                                <x:String>Bird</x:String>
+                                <x:String>Rabbit</x:String>
+                                <x:String>Hamster</x:String>
+                                <x:String>Fish</x:String>
+                                <x:String>Turtle</x:String>
+                                <x:String>Other</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <!-- Age -->
+                    <Label Text="Age *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryAge"
+                           Placeholder="Enter age"
+                           Keyboard="Numeric" />
+
+                    <!-- Gender -->
+                    <Label Text="Gender *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Picker x:Name="PickerGender"
+                            Title="Select gender...">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Male</x:String>
+                                <x:String>Female</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <!-- Clinical Notes -->
+                    <Label Text="Clinical Notes" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Editor x:Name="EditorNotes"
+                            Placeholder="Enter medical or grooming notes..."
+                            HeightRequest="80"
+                            AutoSize="TextChanges" />
+
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,5" />
+
+                    <!-- Action Buttons -->
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="auto,auto" ColumnSpacing="10" RowSpacing="10">
+                        <Button Grid.Row="0" Grid.Column="0"
+                                x:Name="BtnSave"
+                                Text="💾 Save"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                Clicked="OnSaveClicked" />
+                        <Button Grid.Row="0" Grid.Column="1"
+                                x:Name="BtnUpdate"
+                                Text="✏️ Update"
+                                BackgroundColor="{StaticResource Warning}"
+                                TextColor="White"
+                                IsEnabled="False"
+                                Clicked="OnUpdateClicked" />
+                        <Button Grid.Row="1" Grid.Column="0"
+                                x:Name="BtnDelete"
+                                Text="🗑️ Delete"
+                                BackgroundColor="{StaticResource Danger}"
+                                TextColor="White"
+                                IsEnabled="False"
+                                Clicked="OnDeleteClicked" />
+                        <Button Grid.Row="1" Grid.Column="1"
+                                x:Name="BtnClear"
+                                Text="🔄 Clear"
+                                BackgroundColor="{StaticResource Gray400}"
+                                TextColor="White"
+                                Clicked="OnClearClicked" />
+                    </Grid>
+
+                    <!-- Status Label -->
+                    <Label x:Name="LblStatus"
+                           Text=""
+                           FontSize="13"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+
+        <!-- RIGHT PANEL: Pet List -->
+        <Border Grid.Column="1"
+                Stroke="{StaticResource Gray200}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="20">
+            <VerticalStackLayout Spacing="12">
+
+                <Label Text="📋 Pet List"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Tertiary}" />
+
+                <!-- Filter by Owner -->
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Label Grid.Column="0"
+                           Text="Filter by Owner:"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray500}"
+                           VerticalOptions="Center" />
+                    <Picker Grid.Column="1"
+                            x:Name="PickerFilterOwner"
+                            Title="All Owners"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            SelectedIndexChanged="OnFilterOwnerChanged" />
+                </Grid>
+
+                <BoxView HeightRequest="1" Color="{StaticResource Gray200}" />
+
+                <!-- Pet List -->
+                <CollectionView x:Name="PetListView"
+                                SelectionMode="Single"
+                                SelectionChanged="OnPetSelected">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Padding="40">
+                            <Label Text="🐾" FontSize="48" HorizontalOptions="Center" />
+                            <Label Text="No pets found"
+                                   FontSize="16"
+                                   TextColor="{StaticResource Gray400}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Add a new pet using the form on the left"
+                                   FontSize="13"
+                                   TextColor="{StaticResource Gray300}"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4"
+                                    Padding="14"
+                                    Stroke="{StaticResource Gray200}"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="1"
+                                    BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#2A2A2A}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="auto,auto,auto" ColumnSpacing="12">
+                                    <!-- Pet Emoji -->
+                                    <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                           Text="🐾"
+                                           FontSize="28"
+                                           VerticalOptions="Center" />
+
+                                    <!-- Pet Name & Species -->
+                                    <Label Grid.Row="0" Grid.Column="1"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Tertiary}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} ({1})">
+                                                <Binding Path="Name" />
+                                                <Binding Path="Species" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+                                    <!-- Age & Gender -->
+                                    <Label Grid.Row="1" Grid.Column="1"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Gray500}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="Age: {0} | Gender: {1}">
+                                                <Binding Path="Age" />
+                                                <Binding Path="Gender" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+                                    <!-- Owner Name -->
+                                    <Label Grid.Row="0" Grid.Column="2"
+                                           Text="{Binding Client.FirstName, StringFormat='Owner: {0}'}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Primary}"
+                                           VerticalOptions="Center" />
+
+                                    <!-- Clinical Notes Preview -->
+                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                                           Text="{Binding ClinicalNotes, StringFormat='📝 {0}'}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Gray400}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Record Count -->
+                <Label x:Name="LblRecordCount"
+                       Text="0 records"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray400}"
+                       HorizontalOptions="End" />
+
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>
