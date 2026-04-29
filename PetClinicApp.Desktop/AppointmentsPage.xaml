@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PetClinicApp.Desktop.AppointmentsPage"
+             Title="Appointments">
+
+    <Grid Padding="20" ColumnDefinitions="380,*" ColumnSpacing="20">
+
+        <!-- Form -->
+        <Border Grid.Column="0"
+                Stroke="{StaticResource Gray200}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="20">
+            <ScrollView>
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="Appointment Information"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Tertiary}" />
+
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}" />
+
+                    <Label Text="Pet *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Picker x:Name="PickerPet"
+                            Title="Select a pet..."
+                            ItemDisplayBinding="{Binding Name}" />
+
+                    <Label Text="Date *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <DatePicker x:Name="PickerDate" />
+
+                    <Label Text="Time *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <TimePicker x:Name="PickerTime" />
+
+                    <Label Text="Type *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Picker x:Name="PickerType" Title="Select type...">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Veterinary</x:String>
+                                <x:String>Grooming</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <Label Text="Service Fee" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="EntryFee"
+                           Placeholder="Enter amount"
+                           Keyboard="Numeric" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox x:Name="CheckPaid" />
+                        <Label Text="Paid" VerticalOptions="Center" FontSize="14" />
+                    </HorizontalStackLayout>
+
+                    <Label Text="Status" FontSize="13" TextColor="{StaticResource Gray500}" />
+                    <Picker x:Name="PickerStatus" Title="Select status...">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Pending</x:String>
+                                <x:String>Completed</x:String>
+                                <x:String>Cancelled</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,5" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="auto,auto" ColumnSpacing="10" RowSpacing="10">
+                        <Button Grid.Row="0" Grid.Column="0"
+                                x:Name="BtnSave"
+                                Text="Save"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                Clicked="OnSaveClicked" />
+                        <Button Grid.Row="0" Grid.Column="1"
+                                x:Name="BtnUpdate"
+                                Text="Update"
+                                BackgroundColor="{StaticResource Warning}"
+                                TextColor="White"
+                                IsEnabled="False"
+                                Clicked="OnUpdateClicked" />
+                        <Button Grid.Row="1" Grid.Column="0"
+                                x:Name="BtnDelete"
+                                Text="Delete"
+                                BackgroundColor="{StaticResource Danger}"
+                                TextColor="White"
+                                IsEnabled="False"
+                                Clicked="OnDeleteClicked" />
+                        <Button Grid.Row="1" Grid.Column="1"
+                                x:Name="BtnClear"
+                                Text="Clear"
+                                BackgroundColor="{StaticResource Gray400}"
+                                TextColor="White"
+                                Clicked="OnClearClicked" />
+                    </Grid>
+
+                    <Label x:Name="LblStatus"
+                           Text=""
+                           FontSize="13"
+                           HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+
+        <!-- List -->
+        <Border Grid.Column="1"
+                Stroke="{StaticResource Gray200}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="20">
+            <VerticalStackLayout Spacing="12">
+
+                <Label Text="Appointment List"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Tertiary}" />
+
+                <HorizontalStackLayout Spacing="10">
+                    <Button x:Name="BtnShowTodays"
+                            Text="Today's Appointments"
+                            BackgroundColor="{StaticResource Info}"
+                            TextColor="White"
+                            FontSize="13"
+                            Clicked="OnShowTodaysClicked" />
+                    <Button x:Name="BtnShowAll"
+                            Text="Show All"
+                            BackgroundColor="{StaticResource Gray400}"
+                            TextColor="White"
+                            FontSize="13"
+                            Clicked="OnShowAllClicked" />
+                </HorizontalStackLayout>
+
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Label Grid.Column="0"
+                           Text="Filter by Type:"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray500}"
+                           VerticalOptions="Center" />
+                    <Picker Grid.Column="1"
+                            x:Name="PickerFilterType"
+                            Title="All Types"
+                            SelectedIndexChanged="OnFilterTypeChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>All</x:String>
+                                <x:String>Veterinary</x:String>
+                                <x:String>Grooming</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Grid>
+
+                <BoxView HeightRequest="1" Color="{StaticResource Gray200}" />
+
+                <CollectionView x:Name="AppointmentListView"
+                                SelectionMode="Single"
+                                SelectionChanged="OnAppointmentSelected">
+                    <CollectionView.EmptyView>
+                        <Label Text="No appointments found"
+                               FontSize="16"
+                               TextColor="{StaticResource Gray400}"
+                               HorizontalOptions="Center"
+                               Padding="40" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4"
+                                    Padding="14"
+                                    Stroke="{StaticResource Gray200}"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="1">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding Pet.Name}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Tertiary}" />
+                                    <Label Text="{Binding Type}"
+                                           FontSize="13" />
+                                    <Label Text="{Binding AppointmentDate, StringFormat='Date: {0:dd/MM/yyyy HH:mm}'}"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Gray500}" />
+                                    <Label Text="{Binding ServiceFee, StringFormat='Fee: {0:C2}'}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Gray400}" />
+                                    <Label Text="{Binding Status}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Primary}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label x:Name="LblRecordCount"
+                       Text="0 records"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray400}"
+                       HorizontalOptions="End" />
+
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

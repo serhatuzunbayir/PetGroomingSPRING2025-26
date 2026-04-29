@@ -19,7 +19,11 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Veritabanı olarak SQLite kullanacağımızı ve dosya adını belirtiyoruz
-        optionsBuilder.UseSqlite("Data Source=petclinic.db");
+        // db'yi göreli yolla açınca Mac'te "unable to open database file" hatası alıyorduk,
+        // yazılabilir bir klasöre yönlendirdim. Windows ve Web'de de sorunsuz çalışıyor.
+        var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        Directory.CreateDirectory(folder);
+        var dbPath = Path.Combine(folder, "petclinic.db");
+        optionsBuilder.UseSqlite($"Data Source={dbPath}");
     }
 }
