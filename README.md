@@ -30,6 +30,14 @@ A comprehensive, integrated system combining Web and Desktop platforms to manage
 
 5. **Robust Error Handling (Exception Handling):** In the event of database connection failures or invalid data entry, the system must not crash and should display  error messages instead of technical codes.
 
+## 📖 3. Integrated Project Scenario
+
+**The system workflow begins with the receptionist logging into the Desktop application, which triggers background LINQ Aggregation queries (Sum and Count) to instantly populate the Operational Dashboard with real-time statistics, including total clients, registered pets, and financial summaries. From the centralized management panel, the receptionist initiates the Client Registration process by navigating to the "Clients" tab and performing a CRUD operation to save the owner's personal details. Once registered, the flow moves to the Pet Registration phase, where the receptionist links a specific animal to its owner, establishing a one-to-many relationship. During this stage, the LINQ-based search and filtering functionality allows the staff to list pets by owner or access specific clinical histories within seconds, ensuring an efficient and error-free registration process.
+
+**The core of the application's interactive framework is demonstrated during the Appointment Scheduling phase. When a staff member selects a pet and defines the appointment type—such as Veterinary or Grooming—saving the record triggers the Delegate and Event mechanism in the system’s core layer. Specifically, the OnAppointmentCreated event is invoked, sending an instantaneous notification to the user interface to confirm the entry. This synchronized architecture also extends to the customer side; when a user submits a request via the Web interface, the same notification infrastructure alerts the clinic staff in real-time. This ensures that all platforms operate as a unified, interactive framework, maintaining data consistency across the desktop and web environments.
+
+**In the final stage of the operational process, the staff utilizes LINQ Filtering to manage "Today's Appointments" and update records from "Pending" to "Completed". This action allows the receptionist to record specific health or grooming notes in the pet’s digital medical record, which customers can then view transparently through their own web dashboards. Simultaneously, the LINQ Aggregation queries re-calculate the service fees to update the clinic's financial reports. By combining practical interface steps with advanced software logic, the system provides a robust solution for managing professional veterinary and grooming care journeys.
+
 ---
 **Institution:** Izmir University of Economics  
 **Course:** SE 410 
