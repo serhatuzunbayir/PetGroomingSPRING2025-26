@@ -28,7 +28,7 @@ A comprehensive, integrated system combining Web and Desktop platforms to manage
    
 4. **User Experience (UI/UX):** The system must support keyboard shortcuts for rapid data entry by staff, while the customer interface must be fully Responsive for mobile devices.
 
-5. **Robust Error Handling (Exception Handling):** In the event of database connection failures or invalid data entry, the system must not crash and should display user-friendly error messages instead of technical codes.
+5. **Robust Error Handling (Exception Handling):** In the event of database connection failures or invalid data entry, the system must not crash and should display  error messages instead of technical codes.
 
 ---
 **Institution:** Izmir University of Economics  
