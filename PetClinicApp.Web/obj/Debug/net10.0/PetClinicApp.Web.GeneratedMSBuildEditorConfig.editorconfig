@@ -11,41 +11,77 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PetClinicApp.Web
 build_property.RootNamespace = PetClinicApp.Web
-build_property.ProjectDir = /Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/
+build_property.ProjectDir = C:\Users\90537\OneDrive\Belgeler\GitHub\PetGroomingSPRING2025-26\PetClinicApp.Web\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web
+build_property.MSBuildProjectDirectory = C:\Users\90537\OneDrive\Belgeler\GitHub\PetGroomingSPRING2025-26\PetClinicApp.Web
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Appointments/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Appointments/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Appointments/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Clients/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Clients/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Clients/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/goksungurel/Desktop/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-176bq3rfzk
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Pets/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Pets/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Pets/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/90537/OneDrive/Belgeler/GitHub/PetGroomingSPRING2025-26/PetClinicApp.Web/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-wf2kr0e0zf

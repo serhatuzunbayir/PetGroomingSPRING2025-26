@@ -1,0 +1,56 @@
+@model PetClinicApp.Core.Models.Appointment
+@using PetClinicApp.Core.Models
+@{
+    ViewData["Title"] = "New Appointment";
+    var pets = ViewBag.Pets as List<Pet> ?? new();
+}
+
+<h2>📅 New Appointment</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="PetId" class="form-label">Pet</label>
+                <select asp-for="PetId" class="form-select" required>
+                    <option value="">-- Select Pet --</option>
+                    @foreach (var p in pets)
+                    {
+                        <option value="@p.Id">@p.Name (@p.Species) — @p.Client?.FirstName @p.Client?.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AppointmentDate" class="form-label"></label>
+                <input asp-for="AppointmentDate" class="form-control" type="datetime-local"
+                       value="@Model.AppointmentDate.ToString("yyyy-MM-ddTHH:mm")" required />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label">Appointment Type</label>
+                <select asp-for="Type" class="form-select">
+                    <option value="@AppointmentType.Veterinary">🩺 Veterinary</option>
+                    <option value="@AppointmentType.Grooming">✂️ Grooming</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" class="form-select">
+                    <option value="@AppointmentStatus.Pending">Pending</option>
+                    <option value="@AppointmentStatus.Completed">Completed</option>
+                    <option value="@AppointmentStatus.Cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ServiceFee" class="form-label"></label>
+                <input asp-for="ServiceFee" class="form-control" type="number" step="0.01" min="0" />
+            </div>
+            <div class="mb-3 form-check">
+                <input asp-for="IsPaid" class="form-check-input" type="checkbox" />
+                <label asp-for="IsPaid" class="form-check-label">Paid</label>
+            </div>
+            <button type="submit" class="btn btn-warning">Save</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</div>
