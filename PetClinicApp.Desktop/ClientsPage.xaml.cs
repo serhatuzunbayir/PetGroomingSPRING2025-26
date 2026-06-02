@@ -4,8 +4,8 @@ using PetClinicApp.Core.Services;
 namespace PetClinicApp.Desktop;
 
 /// <summary>
-/// Masaüstü uygulaması müşteri yönetim sayfası.
-/// Müşteri CRUD (Ekle, Oku, Güncelle, Sil) işlemlerini sağlar.
+/// Desktop application client management page.
+/// Provides client CRUD (Create, Read, Update, Delete) operations.
 /// </summary>
 public partial class ClientsPage : ContentPage
 {
@@ -13,7 +13,7 @@ public partial class ClientsPage : ContentPage
     private Client? _selectedClient = null;
 
     /// <summary>
-    /// Sayfa constructor'ı.
+    /// Page constructor.
     /// </summary>
     public ClientsPage()
     {
@@ -21,7 +21,7 @@ public partial class ClientsPage : ContentPage
     }
 
     /// <summary>
-    /// Sayfa her göründüğünde müşteri listesini veritabanından yükler.
+    /// Loads the client list from the database every time the page appears.
     /// </summary>
     protected override void OnAppearing()
     {

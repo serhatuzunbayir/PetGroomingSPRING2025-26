@@ -4,54 +4,54 @@ using System.ComponentModel.DataAnnotations;
 namespace PetClinicApp.Web.Models;
 
 /// <summary>
-/// Randevu alma formu için ViewModel.
-/// Müşteri ve hayvan seçimini, randevu detaylarını içerir.
+/// ViewModel for the appointment booking form.
+/// Contains client and pet selection, and appointment details.
 /// </summary>
 public class BookAppointmentViewModel
 {
-    // Formda seçim için mevcut listeler
-    /// <summary>Dropdown'da gösterilecek tüm müşteriler</summary>
+    // Lists available for selection in the form
+    /// <summary>All clients to be shown in the dropdown</summary>
     public List<Client> Clients { get; set; } = new();
 
-    /// <summary>Seçili müşteriye ait evcil hayvanlar</summary>
+    /// <summary>Pets belonging to the selected client</summary>
     public List<Pet> Pets { get; set; } = new();
 
-    // Kullanıcının form üzerinde seçtiği değerler
-    /// <summary>Randevu için seçilen evcil hayvanın ID'si</summary>
+    // Values selected by the user on the form
+    /// <summary>ID of the pet selected for the appointment</summary>
     [Required(ErrorMessage = "Please select a pet.")]
     public int SelectedPetId { get; set; }
 
-    /// <summary>Randevu için seçilen müşterinin ID'si</summary>
+    /// <summary>ID of the client selected for the appointment</summary>
     [Required(ErrorMessage = "Please select a client.")]
     public int SelectedClientId { get; set; }
 
-    /// <summary>Randevu tarihi ve saati</summary>
+    /// <summary>Appointment date and time</summary>
     [Required(ErrorMessage = "Please select a date.")]
     public DateTime AppointmentDate { get; set; } = DateTime.Today.AddDays(1);
 
-    /// <summary>Randevu türü: Veterinary veya Grooming</summary>
+    /// <summary>Appointment type: Veterinary or Grooming</summary>
     [Required(ErrorMessage = "Please select an appointment type.")]
     public AppointmentType Type { get; set; }
 
-    /// <summary>Hizmet bedeli (opsiyonel — 0 bırakılabilir)</summary>
+    /// <summary>Service fee (optional - can be left as 0)</summary>
     [Range(0, double.MaxValue, ErrorMessage = "Fee must be a positive number.")]
     public decimal ServiceFee { get; set; } = 0;
 
-    /// <summary>Başarılı kayıt sonrası gösterilecek onay mesajı</summary>
+    /// <summary>Confirmation message to show after successful booking</summary>
     public string? ConfirmationMessage { get; set; }
 }
 
 /// <summary>
-/// Müşterinin kendi randevularını görüntüleme sayfası için ViewModel.
+/// ViewModel for the page where a client views their own appointments.
 /// </summary>
 public class MyAppointmentsViewModel
 {
-    /// <summary>Sayfada görüntülenen müşteri</summary>
+    /// <summary>The client displayed on the page</summary>
     public Client? SelectedClient { get; set; }
 
-    /// <summary>Dropdown'da gösterilecek tüm müşteriler</summary>
+    /// <summary>All clients to be shown in the dropdown</summary>
     public List<Client> AllClients { get; set; } = new();
 
-    /// <summary>Seçili müşterinin randevuları (LINQ ile filtrelenmiş)</summary>
+    /// <summary>Appointments of the selected client (filtered via LINQ)</summary>
     public List<Appointment> Appointments { get; set; } = new();
 }

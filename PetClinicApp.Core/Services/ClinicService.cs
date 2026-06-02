@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 namespace PetClinicApp.Core.Services;
 
 /// <summary>
-/// Kliniğin temel iş mantığı katmanı.
-/// Müşteri, Evcil Hayvan ve Randevu işlemlerini yönetir.
-/// LINQ sorguları, Delegate/Event bildirimleri bu sınıf üzerinden çalışır.
+/// Core business logic layer of the clinic.
+/// Manages Client, Pet, and Appointment operations.
+/// LINQ queries, Delegate/Event notifications run through this class.
 /// </summary>
 public class ClinicService
 {
     // ==========================================
-    // 1. MÜŞTERİ (CLIENT) İŞLEMLERİ
+    // 1. CLIENT OPERATIONS
     // ==========================================
 
     /// <summary>
-    /// Yeni bir müşteri kaydını veritabanına ekler.
+    /// Adds a new client record to the database.
     /// </summary>
-    /// <param name="client">Eklenecek müşteri nesnesi</param>
+    /// <param name="client">The client object to add</param>
     public void AddClient(Client client)
     {
         using var context = new AppDbContext();
@@ -27,21 +27,21 @@ public class ClinicService
     }
 
     /// <summary>
-    /// Tüm müşteri kayıtlarını ilişkili evcil hayvanlarıyla birlikte getirir.
-    /// (LINQ: Eager Loading — Include ile join)
+    /// Gets all client records along with their associated pets.
+    /// (LINQ: Eager Loading - join with Include)
     /// </summary>
-    /// <returns>Evcil hayvanları dahil müşteri listesi</returns>
+    /// <returns>Client list including pets</returns>
     public List<Client> GetAllClients()
     {
         using var context = new AppDbContext();
-        // Include ile Pets tablosuyla join yapılıyor (Eager Loading)
+        // Join with Pets table using Include (Eager Loading)
         return context.Clients.Include(c => c.Pets).ToList();
     }
 
     /// <summary>
-    /// Mevcut bir müşteri kaydını günceller.
+    /// Updates an existing client record.
     /// </summary>
-    /// <param name="client">Güncellenecek müşteri nesnesi</param>
+    /// <param name="client">The client object to update</param>
     public void UpdateClient(Client client)
     {
         using var context = new AppDbContext();
@@ -50,9 +50,9 @@ public class ClinicService
     }
 
     /// <summary>
-    /// Verilen ID'ye ait müşteriyi veritabanından siler.
+    /// Deletes the client with the given ID from the database.
     /// </summary>
-    /// <param name="clientId">Silinecek müşterinin ID'si</param>
+    /// <param name="clientId">ID of the client to delete</param>
     public void DeleteClient(int clientId)
     {
         using var context = new AppDbContext();
@@ -65,13 +65,13 @@ public class ClinicService
     }
 
     // ==========================================
-    // 2. EVCİL HAYVAN (PET) İŞLEMLERİ
+    // 2. PET OPERATIONS
     // ==========================================
 
     /// <summary>
-    /// Yeni bir evcil hayvan kaydını veritabanına ekler.
+    /// Adds a new pet record to the database.
     /// </summary>
-    /// <param name="pet">Eklenecek evcil hayvan nesnesi</param>
+    /// <param name="pet">The pet object to add</param>
     public void AddPet(Pet pet)
     {
         using var context = new AppDbContext();
@@ -80,21 +80,21 @@ public class ClinicService
     }
 
     /// <summary>
-    /// Tüm evcil hayvanları sahip müşteri bilgisiyle birlikte getirir.
-    /// (LINQ: Eager Loading — Include ile join)
+    /// Gets all pets along with their owner client info.
+    /// (LINQ: Eager Loading - join with Include)
     /// </summary>
-    /// <returns>Sahip bilgisi dahil hayvan listesi</returns>
+    /// <returns>Pet list including owner info</returns>
     public List<Pet> GetAllPets()
     {
         using var context = new AppDbContext();
-        // Hayvanları listelerken sahiplerini (Client) de getir (Eager Loading)
+        // Bring their owners (Client) while listing pets (Eager Loading)
         return context.Pets.Include(p => p.Client).ToList();
     }
 
     /// <summary>
-    /// Mevcut bir evcil hayvan kaydını günceller.
+    /// Updates an existing pet record.
     /// </summary>
-    /// <param name="pet">Güncellenecek evcil hayvan nesnesi</param>
+    /// <param name="pet">The pet object to update</param>
     public void UpdatePet(Pet pet)
     {
         using var context = new AppDbContext();
@@ -103,9 +103,9 @@ public class ClinicService
     }
 
     /// <summary>
-    /// Verilen ID'ye ait evcil hayvanı veritabanından siler.
+    /// Deletes the pet with the given ID from the database.
     /// </summary>
-    /// <param name="petId">Silinecek hayvanın ID'si</param>
+    /// <param name="petId">ID of the pet to delete</param>
     public void DeletePet(int petId)
     {
         using var context = new AppDbContext();
@@ -118,13 +118,13 @@ public class ClinicService
     }
 
     // ==========================================
-    // 3. RANDEVU (APPOINTMENT) İŞLEMLERİ
+    // 3. APPOINTMENT OPERATIONS
     // ==========================================
 
     /// <summary>
-    /// Yeni bir randevu kaydını veritabanına ekler.
+    /// Adds a new appointment record to the database.
     /// </summary>
-    /// <param name="appointment">Eklenecek randevu nesnesi</param>
+    /// <param name="appointment">The appointment object to add</param>
     public void AddAppointment(Appointment appointment)
     {
         using var context = new AppDbContext();
@@ -133,21 +133,21 @@ public class ClinicService
     }
 
     /// <summary>
-    /// Tüm randevuları ilişkili hayvan bilgisiyle birlikte getirir.
-    /// (LINQ: Eager Loading — Include ile join)
+    /// Gets all appointments along with their associated pet info.
+    /// (LINQ: Eager Loading - join with Include)
     /// </summary>
-    /// <returns>Hayvan bilgisi dahil randevu listesi</returns>
+    /// <returns>Appointment list including pet info</returns>
     public List<Appointment> GetAllAppointments()
     {
         using var context = new AppDbContext();
-        // Randevuları listelerken hangi hayvana (Pet) ait olduğunu da getir
+        // Bring which pet it belongs to while listing appointments
         return context.Appointments.Include(a => a.Pet).ToList();
     }
 
     /// <summary>
-    /// Mevcut bir randevu kaydını günceller (durum, ücret vb.).
+    /// Updates an existing appointment record (status, fee etc.).
     /// </summary>
-    /// <param name="appointment">Güncellenecek randevu nesnesi</param>
+    /// <param name="appointment">The appointment object to update</param>
     public void UpdateAppointment(Appointment appointment)
     {
         using var context = new AppDbContext();
@@ -156,9 +156,9 @@ public class ClinicService
     }
 
     /// <summary>
-    /// Verilen ID'ye ait randevuyu veritabanından siler.
+    /// Deletes the appointment with the given ID from the database.
     /// </summary>
-    /// <param name="appointmentId">Silinecek randevunun ID'si</param>
+    /// <param name="appointmentId">ID of the appointment to delete</param>
     public void DeleteAppointment(int appointmentId)
     {
         using var context = new AppDbContext();
@@ -175,38 +175,38 @@ public class ClinicService
     // ==========================================
 
     /// <summary>
-    /// Klinik bildirim delegate'i: mesaj ve ilgili nesneyi taşır.
-    /// Desktop ve Web katmanları bu delegate aracılığıyla bildirim alır.
+    /// Clinic notification delegate: carries message and related object.
+    /// Desktop and Web layers receive notifications via this delegate.
     /// </summary>
-    /// <param name="message">Gösterilecek bildirim mesajı</param>
-    /// <param name="entity">İşlem yapılan nesne (Appointment vb.)</param>
+    /// <param name="message">The notification message to show</param>
+    /// <param name="entity">The processed object (Appointment etc.)</param>
     public delegate void ClinicNotifyHandler(string message, object entity);
 
-    /// <summary>Yeni randevu oluşturulduğunda tetiklenen event</summary>
+    /// <summary>Event triggered when a new appointment is created</summary>
     public event ClinicNotifyHandler? OnAppointmentCreated;
 
-    /// <summary>Randevu silindiğinde tetiklenen event</summary>
+    /// <summary>Event triggered when an appointment is deleted</summary>
     public event ClinicNotifyHandler? OnAppointmentDeleted;
 
     /// <summary>
-    /// Randevu ekler ve başarıyla kaydedilince OnAppointmentCreated event'ini tetikler.
-    /// (Gereksinim: Delegate/Event bildirimi)
+    /// Adds an appointment and triggers the OnAppointmentCreated event upon successful save.
+    /// (Requirement: Delegate/Event notification)
     /// </summary>
-    /// <param name="appointment">Eklenecek randevu nesnesi</param>
+    /// <param name="appointment">The appointment object to add</param>
     public void AddAppointmentWithNotification(Appointment appointment)
     {
-        // Önce randevuyu kaydet
+        // Save the appointment first
         AddAppointment(appointment);
 
-        // Delegate event'ini tetikle — UI katmanı bu event'i dinler ve bildirim gösterir
+        // Trigger the delegate event - UI layer listens to this event and shows a notification
         OnAppointmentCreated?.Invoke($"✅ A new appointment has been added for {appointment.AppointmentDate:dd MMM yyyy HH:mm}!", appointment);
     }
 
     /// <summary>
-    /// Randevuyu siler ve başarıyla silinince OnAppointmentDeleted event'ini tetikler.
-    /// (Gereksinim: Delegate/Event bildirimi)
+    /// Deletes the appointment and triggers the OnAppointmentDeleted event upon successful deletion.
+    /// (Requirement: Delegate/Event notification)
     /// </summary>
-    /// <param name="appointmentId">Silinecek randevunun ID'si</param>
+    /// <param name="appointmentId">ID of the appointment to delete</param>
     public void DeleteAppointmentWithNotification(int appointmentId)
     {
         using var context = new AppDbContext();
@@ -214,10 +214,10 @@ public class ClinicService
 
         if (appointment != null)
         {
-            // Önce randevuyu sil
+            // Delete the appointment first
             DeleteAppointment(appointmentId);
 
-            // Delegate event'ini tetikle — silme işlemi sonrası UI katmanı bilgilendirilir
+            // Trigger the delegate event - UI layer is notified after deletion
             OnAppointmentDeleted?.Invoke("🗑️ Appointment has been successfully removed from the system.", appointment);
         }
     }
@@ -227,103 +227,103 @@ public class ClinicService
     // ==========================================
 
     /// <summary>
-    /// Bugünkü tüm randevuları getirir; saat sırasına göre sıralar.
+    /// Gets all today's appointments; ordered by time.
     /// (LINQ: Filtering + Ordering + ThenInclude/Join)
     /// </summary>
-    /// <returns>Bugünkü randevular — hayvan ve müşteri bilgisiyle birlikte</returns>
+    /// <returns>Today's appointments - along with pet and client info</returns>
     public List<Appointment> GetTodaysAppointments()
     {
         using var context = new AppDbContext();
         return context.Appointments
             .Include(a => a.Pet)
-                .ThenInclude(p => p!.Client) // İlişkili tabloları join et (ThenInclude)
-            .Where(a => a.AppointmentDate.Date == DateTime.Today) // Filtreleme: sadece bugün
-            .OrderBy(a => a.AppointmentDate)                      // Sıralama: saate göre
+                .ThenInclude(p => p!.Client) // Join related tables (ThenInclude)
+            .Where(a => a.AppointmentDate.Date == DateTime.Today) // Filtering: only today
+            .OrderBy(a => a.AppointmentDate)                      // Ordering: by time
             .ToList();
     }
 
     /// <summary>
-    /// Müşteri adı veya soyadına göre LINQ ile arama yapar.
+    /// Searches for clients by first or last name using LINQ.
     /// (LINQ: Search + Filtering)
     /// </summary>
-    /// <param name="term">Aranacak metin (ad veya soyad)</param>
-    /// <returns>Arama terimiyle eşleşen müşteri listesi</returns>
+    /// <param name="term">Search term (first or last name)</param>
+    /// <returns>Client list matching the search term</returns>
     public List<Client> SearchClients(string term)
     {
-        // Arama terimi boşsa tüm müşterileri getir
+        // If search term is empty, return all clients
         if (string.IsNullOrWhiteSpace(term)) return GetAllClients();
 
         using var context = new AppDbContext();
         return context.Clients
             .Where(c => c.FirstName.ToLower().Contains(term.ToLower()) ||
-                        c.LastName.ToLower().Contains(term.ToLower())) // Ad veya soyad filtreleme
-            .OrderBy(c => c.FirstName)                                   // İsme göre sıralama
+                        c.LastName.ToLower().Contains(term.ToLower())) // First or last name filtering
+            .OrderBy(c => c.FirstName)                                   // Order by name
             .ToList();
     }
 
     /// <summary>
-    /// Klinik özet istatistiklerini hesaplar: toplam kazanç ve kayıtlı hayvan sayısı.
-    /// (LINQ: Aggregation — Sum ve Count)
+    /// Calculates clinic summary statistics: total earnings and registered pet count.
+    /// (LINQ: Aggregation - Sum and Count)
     /// </summary>
-    /// <returns>Özet bilgi metni</returns>
+    /// <returns>Summary info text</returns>
     public string GetClinicSummary()
     {
         using var context = new AppDbContext();
 
-        // LINQ Sum: Sadece ödenen randevuların toplam tutarını hesapla
+        // LINQ Sum: Calculate the total amount of only paid appointments
         decimal totalEarnings = context.Appointments.Where(a => a.IsPaid).Sum(a => a.ServiceFee);
 
-        // LINQ Count: Kayıtlı toplam hayvan sayısını say
+        // LINQ Count: Count the total registered pets
         int totalPets = context.Pets.Count();
 
         return $"There are {totalPets} registered pets in the clinic. Total Earnings: {totalEarnings:C2}";
     }
 
     /// <summary>
-    /// Belirli bir müşteriye ait tüm evcil hayvanları isim sırasına göre getirir.
+    /// Gets all pets belonging to a specific client, ordered by name.
     /// (LINQ: Filtering + Ordering)
     /// </summary>
-    /// <param name="clientId">Müşteri ID'si</param>
-    /// <returns>O müşteriye ait hayvan listesi</returns>
+    /// <param name="clientId">Client ID</param>
+    /// <returns>Pet list for that client</returns>
     public List<Pet> GetPetsByClientId(int clientId)
     {
         using var context = new AppDbContext();
         return context.Pets
-            .Where(p => p.ClientId == clientId) // Müşteriye göre filtreleme
-            .OrderBy(p => p.Name)               // İsme göre sıralama
+            .Where(p => p.ClientId == clientId) // Filter by client
+            .OrderBy(p => p.Name)               // Order by name
             .ToList();
     }
 
     /// <summary>
-    /// Belirli bir müşteriye ait tüm randevuları getirir (web müşteri paneli için).
-    /// Hem geçmiş hem de gelecek randevuları tarih sırasına göre listeler.
+    /// Gets all appointments belonging to a specific client (for web customer panel).
+    /// Lists both past and future appointments ordered by date.
     /// (LINQ: Filtering + Ordering + Include/Join)
     /// </summary>
-    /// <param name="clientId">Müşteri ID'si</param>
-    /// <returns>O müşterinin tüm randevuları — hayvan bilgisiyle birlikte</returns>
+    /// <param name="clientId">Client ID</param>
+    /// <returns>All appointments for that client - along with pet info</returns>
     public List<Appointment> GetAppointmentsByClientId(int clientId)
     {
         using var context = new AppDbContext();
         return context.Appointments
-            .Include(a => a.Pet)                              // Hayvan bilgisini join et
-                .ThenInclude(p => p!.Client)                  // Müşteri bilgisini de getir
-            .Where(a => a.Pet!.ClientId == clientId)          // Müşteriye göre filtrele
-            .OrderByDescending(a => a.AppointmentDate)        // Tarihe göre azalan sıralama
+            .Include(a => a.Pet)                              // Join pet info
+                .ThenInclude(p => p!.Client)                  // Also bring client info
+            .Where(a => a.Pet!.ClientId == clientId)          // Filter by client
+            .OrderByDescending(a => a.AppointmentDate)        // Order descending by date
             .ToList();
     }
 
     /// <summary>
-    /// Tüm ödenmemiş (IsPaid = false) ve tamamlanmış randevuları getirir.
-    /// Dashboard'da bekleyen ödemeler için kullanılır.
+    /// Gets all unpaid (IsPaid = false) and completed appointments.
+    /// Used for pending payments on the Dashboard.
     /// (LINQ: Filtering)
     /// </summary>
-    /// <returns>Ödenmemiş tamamlanmış randevu listesi</returns>
+    /// <returns>Unpaid completed appointment list</returns>
     public List<Appointment> GetUnpaidCompletedAppointments()
     {
         using var context = new AppDbContext();
         return context.Appointments
             .Include(a => a.Pet)
-            .Where(a => !a.IsPaid && a.Status == AppointmentStatus.Completed) // Filtreleme
+            .Where(a => !a.IsPaid && a.Status == AppointmentStatus.Completed) // Filtering
             .OrderBy(a => a.AppointmentDate)
             .ToList();
     }

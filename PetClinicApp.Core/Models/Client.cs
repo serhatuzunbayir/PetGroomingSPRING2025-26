@@ -1,29 +1,29 @@
 namespace PetClinicApp.Core.Models;
 
 /// <summary>
-/// Müşteri (hayvan sahibi) varlık modeli.
-/// Bir müşterinin birden fazla evcil hayvanı olabilir (one-to-many ilişkisi).
+/// Client (pet owner) entity model.
+/// A client can have multiple pets (one-to-many relationship).
 /// </summary>
 public class Client
 {
-    /// <summary>Veritabanı birincil anahtarı (otomatik artar)</summary>
+    /// <summary>Database primary key (auto increment)</summary>
     public int Id { get; set; }
 
-    /// <summary>Müşterinin adı</summary>
+    /// <summary>Client's first name</summary>
     public string FirstName { get; set; } = string.Empty;
 
-    /// <summary>Müşterinin soyadı</summary>
+    /// <summary>Client's last name</summary>
     public string LastName { get; set; } = string.Empty;
 
-    /// <summary>Müşterinin telefon numarası (iletişim için)</summary>
+    /// <summary>Client's phone number (for contact)</summary>
     public string PhoneNumber { get; set; } = string.Empty;
 
-    /// <summary>Müşterinin e-posta adresi</summary>
+    /// <summary>Client's email address</summary>
     public string Email { get; set; } = string.Empty;
 
     /// <summary>
-    /// Müşteriye ait evcil hayvanlar koleksiyonu.
-    /// One-to-Many ilişkisi: Bir müşterinin birden fazla hayvanı olabilir.
+    /// Collection of pets belonging to the client.
+    /// One-to-Many relationship: A client can have multiple pets.
     /// </summary>
     public ICollection<Pet> Pets { get; set; } = new List<Pet>();
 }

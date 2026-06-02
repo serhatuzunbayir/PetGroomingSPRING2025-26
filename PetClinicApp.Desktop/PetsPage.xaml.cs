@@ -13,8 +13,8 @@ public class ClientDisplayItem
 }
 
 /// <summary>
-/// Masaüstü uygulaması evcil hayvan yönetim sayfası.
-/// Evcil hayvan CRUD (Ekle, Oku, Güncelle, Sil) işlemlerini sağlar.
+/// Desktop application pet management page.
+/// Provides pet CRUD (Create, Read, Update, Delete) operations.
 /// </summary>
 public partial class PetsPage : ContentPage
 {
@@ -23,7 +23,7 @@ public partial class PetsPage : ContentPage
     private List<ClientDisplayItem> _clientItems = new();
 
     /// <summary>
-    /// Sayfa constructor'ı.
+    /// Page constructor.
     /// </summary>
     public PetsPage()
     {
@@ -31,7 +31,7 @@ public partial class PetsPage : ContentPage
     }
 
     /// <summary>
-    /// Sayfa her göründüğünde listeleri günceller.
+    /// Updates lists every time the page appears.
     /// </summary>
     protected override void OnAppearing()
     {

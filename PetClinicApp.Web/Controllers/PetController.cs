@@ -4,52 +4,52 @@ using PetClinicApp.Core.Services;
 namespace PetClinicApp.Web.Controllers;
 
 /// <summary>
-/// Web müşteri paneli için evcil hayvan bilgilerini yöneten MVC Controller.
-/// Müşterilerin kendi hayvanlarını ve klinik notlarını görüntülemesini sağlar.
+/// MVC Controller that manages pet information for the web customer panel.
+/// Allows customers to view their own pets and clinical notes.
 /// </summary>
 public class PetController : Controller
 {
-    // Tüm iş mantığına erişim için servis katmanı
+    // Service layer for access to all business logic
     private readonly ClinicService _service = new();
 
     /// <summary>
-    /// Tüm evcil hayvanları listeler.
-    /// (LINQ: GetAllPets — Eager Loading ile sahip bilgisi dahil)
+    /// Lists all pets.
+    /// (LINQ: GetAllPets - Eager Loading including owner info)
     /// GET: /Pet
     /// </summary>
     public IActionResult Index()
     {
-        // Tüm hayvanları müşteri bilgisiyle birlikte getir (LINQ Include)
+        // Get all pets along with client info (LINQ Include)
         var pets = _service.GetAllPets();
 
-        // Toplam hayvan sayısını ViewBag ile view'a ilet
+        // Pass total pet count to the view via ViewBag
         ViewBag.TotalPets = pets.Count;
 
         return View(pets);
     }
 
     /// <summary>
-    /// Belirli bir evcil hayvanın detay sayfasını gösterir.
-    /// Klinik notları ve randevu geçmişini içerir.
-    /// (LINQ: GetAppointmentsByClientId — hayvanın geçmiş randevuları)
+    /// Shows the details page of a specific pet.
+    /// Includes clinical notes and appointment history.
+    /// (LINQ: GetAppointmentsByClientId - past appointments of the pet)
     /// GET: /Pet/Details/5
     /// </summary>
-    /// <param name="id">Görüntülenecek hayvanın ID'si</param>
+    /// <param name="id">ID of the pet to view</param>
     public IActionResult Details(int id)
     {
-        // Tüm hayvanları getir ve ID ile bul
+        // Get all pets and find by ID
         var pet = _service.GetAllPets().FirstOrDefault(p => p.Id == id);
 
-        // Hayvan bulunamadıysa 404 sayfasına yönlendir
+        // Redirect to 404 page if pet is not found
         if (pet == null)
             return NotFound();
 
-        // Bu hayvanın sahibine ait tüm randevuları getir (LINQ filtreleme)
+        // Get all appointments belonging to this pet's owner (LINQ filtering)
         var appointments = _service.GetAppointmentsByClientId(pet.ClientId)
-            .Where(a => a.PetId == id) // Sadece bu hayvana ait randevular
+            .Where(a => a.PetId == id) // Only appointments for this pet
             .ToList();
 
-        // Randevu geçmişini ViewBag ile view'a ilet
+        // Pass appointment history to the view via ViewBag
         ViewBag.Appointments = appointments;
         ViewBag.CompletedCount = appointments.Count(a => a.Status == Core.Models.AppointmentStatus.Completed);
         ViewBag.PendingCount = appointments.Count(a => a.Status == Core.Models.AppointmentStatus.Pending);

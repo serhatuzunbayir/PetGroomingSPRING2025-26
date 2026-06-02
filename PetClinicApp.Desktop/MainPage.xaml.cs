@@ -3,17 +3,17 @@ using PetClinicApp.Core.Services;
 namespace PetClinicApp.Desktop;
 
 /// <summary>
-/// Uygulama açılışında gösterilen Dashboard (Ana Sayfa) sayfası.
-/// Klinik özet istatistiklerini ve bugünkü randevuları gösterir.
-/// Gereksinim #10: Operational Dashboard — LINQ aggregation ile doldurulur.
+/// Dashboard (Home) page shown on app startup.
+/// Displays clinic summary statistics and today's appointments.
+/// Requirement #10: Operational Dashboard - populated via LINQ aggregation.
 /// </summary>
 public partial class MainPage : ContentPage
 {
-    // Tüm iş mantığına erişim için servis katmanı
+    // Service layer for access to all business logic
     private readonly ClinicService _service = new();
 
     /// <summary>
-    /// Sayfa constructor'ı: UI bileşenlerini başlatır.
+    /// Page constructor: Initializes UI components.
     /// </summary>
     public MainPage()
     {
@@ -21,66 +21,66 @@ public partial class MainPage : ContentPage
     }
 
     /// <summary>
-    /// Sayfa her görünür olduğunda dashboard verilerini yeniler.
-    /// Bu sayede başka sekmelerden geri dönüldüğünde veriler güncel kalır.
+    /// Refreshes dashboard data every time the page appears.
+    /// Keeps data up-to-date when returning from other tabs.
     /// </summary>
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        LoadDashboard(); // Sayfa görünür olduğunda dashboard'ı yenile
+        LoadDashboard(); // Refresh dashboard when page appears
     }
 
     /// <summary>
-    /// Dashboard'daki tüm istatistik kartlarını ve bugünkü randevuları yükler.
-    /// LINQ aggregation (Sum, Count) ve LINQ filtering (Where, OrderBy) kullanır.
+    /// Loads all statistic cards and today's appointments on the dashboard.
+    /// Uses LINQ aggregation (Sum, Count) and LINQ filtering (Where, OrderBy).
     /// </summary>
     private void LoadDashboard()
     {
         try
         {
-            // LINQ Count: Toplam müşteri ve hayvan sayılarını getir
+            // LINQ Count: Get total client and pet counts
             var clients = _service.GetAllClients();
             var pets = _service.GetAllPets();
 
-            // Kart etiketlerini güncelle
+            // Update card labels
             LblTotalClients.Text = clients.Count.ToString();
             LblTotalPets.Text = pets.Count.ToString();
 
-            // LINQ Aggregation: Toplam kazanç ve özet bilgisi
+            // LINQ Aggregation: Total earnings and summary info
             var summary = _service.GetClinicSummary();
             LblClinicSummary.Text = summary;
 
-            // LINQ Sum: Ödenen randevuların toplam geliri
+            // LINQ Sum: Total earnings of paid appointments
             var appointments = _service.GetAllAppointments();
             decimal totalEarnings = 0;
             foreach (var a in appointments)
             {
-                // Sadece ödenen randevuların ücretlerini topla
+                // Only sum fees of paid appointments
                 if (a.IsPaid)
                     totalEarnings += a.ServiceFee;
             }
             LblTotalEarnings.Text = $"${totalEarnings:F2}";
 
-            // LINQ Filtering: Bugünkü randevuları saat sırasına göre getir
+            // LINQ Filtering: Get today's appointments ordered by time
             var todaysAppointments = _service.GetTodaysAppointments();
 
-            // Bugün kaç randevu olduğunu göster
+            // Show how many appointments there are today
             LblTodayCount.Text = todaysAppointments.Count > 0
                 ? $"{todaysAppointments.Count} appointment(s) today"
                 : "No appointments scheduled for today.";
 
-            // Bugünkü randevular listesini CollectionView'e bağla
+            // Bind today's appointments list to CollectionView
             TodayAppointmentsList.ItemsSource = todaysAppointments;
         }
         catch (Exception ex)
         {
-            // Hata durumunda crash olmadan mesaj göster
+            // Show message without crashing on error
             LblClinicSummary.Text = $"Error loading data: {ex.Message}";
         }
     }
 
     /// <summary>
-    /// "Add New Client" butonuna tıklanınca Clients sekmesine gider.
+    /// Navigates to Clients tab when "Add New Client" button is clicked.
     /// </summary>
     private async void OnGoToClientsClicked(object? sender, EventArgs e)
     {
@@ -88,7 +88,7 @@ public partial class MainPage : ContentPage
     }
 
     /// <summary>
-    /// "Add New Pet" butonuna tıklanınca Pets sekmesine gider.
+    /// Navigates to Pets tab when "Add New Pet" button is clicked.
     /// </summary>
     private async void OnGoToPetsClicked(object? sender, EventArgs e)
     {
@@ -96,7 +96,7 @@ public partial class MainPage : ContentPage
     }
 
     /// <summary>
-    /// "Appointments" butonuna tıklanınca Appointments sekmesine gider.
+    /// Navigates to Appointments tab when "Appointments" button is clicked.
     /// </summary>
     private async void OnGoToAppointmentsClicked(object? sender, EventArgs e)
     {

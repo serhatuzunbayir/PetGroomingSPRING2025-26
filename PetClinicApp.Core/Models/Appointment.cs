@@ -1,45 +1,45 @@
 namespace PetClinicApp.Core.Models;
 
 /// <summary>
-/// Randevu türünü belirler.
-/// Veterinary: Veteriner muayenesi | Grooming: Tıraş ve bakım hizmeti
+/// Determines the appointment type.
+/// Veterinary: Vet checkup | Grooming: Shaving and care service
 /// </summary>
 public enum AppointmentType { Veterinary, Grooming }
 
 /// <summary>
-/// Randevunun mevcut durumunu belirler.
-/// Pending: Bekliyor | Completed: Tamamlandı | Cancelled: İptal edildi
+/// Determines the current status of the appointment.
+/// Pending: Waiting | Completed: Done | Cancelled: Canceled
 /// </summary>
 public enum AppointmentStatus { Pending, Completed, Cancelled }
 
 /// <summary>
-/// Randevu varlık modeli.
-/// Bir hayvana ait veteriner veya grooming randevusunu temsil eder.
-/// ServiceFee ve IsPaid alanları ödeme takibi için kullanılır.
+/// Appointment entity model.
+/// Represents a veterinary or grooming appointment for a pet.
+/// ServiceFee and IsPaid fields are used for payment tracking.
 /// </summary>
 public class Appointment
 {
-    /// <summary>Veritabanı birincil anahtarı (otomatik artar)</summary>
+    /// <summary>Database primary key (auto increment)</summary>
     public int Id { get; set; }
 
-    /// <summary>Randevu tarihi ve saati</summary>
+    /// <summary>Appointment date and time</summary>
     public DateTime AppointmentDate { get; set; }
 
-    /// <summary>Randevu türü: Veterinary veya Grooming</summary>
+    /// <summary>Appointment type: Veterinary or Grooming</summary>
     public AppointmentType Type { get; set; }
 
-    /// <summary>Randevu durumu — varsayılan olarak Pending (beklemede) başlar</summary>
+    /// <summary>Appointment status - starts as Pending by default</summary>
     public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
 
-    /// <summary>Hizmet bedeli (TL/USD cinsinden)</summary>
+    /// <summary>Service fee (in TL/USD)</summary>
     public decimal ServiceFee { get; set; }
 
-    /// <summary>Ödeme durumu: true ise ödeme alınmış demektir</summary>
+    /// <summary>Payment status: true means payment received</summary>
     public bool IsPaid { get; set; }
 
-    /// <summary>Bu randevunun ait olduğu hayvanın Foreign Key'i</summary>
+    /// <summary>Foreign Key of the pet this appointment belongs to</summary>
     public int PetId { get; set; }
 
-    /// <summary>İlişkili hayvan nesnesi (Navigation Property — Eager Loading için)</summary>
+    /// <summary>Related pet object (Navigation Property for Eager Loading)</summary>
     public Pet? Pet { get; set; }
 }

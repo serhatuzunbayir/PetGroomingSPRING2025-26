@@ -1,43 +1,43 @@
 namespace PetClinicApp.Core.Models;
 
 /// <summary>
-/// Evcil hayvan varlık modeli.
-/// Bir müşteriye ait (Foreign Key: ClientId) hayvanı temsil eder.
-/// Bir hayvanın birden fazla randevusu olabilir (one-to-many ilişkisi).
+/// Pet entity model.
+/// Represents a pet belonging to a client (Foreign Key: ClientId).
+/// A pet can have multiple appointments (one-to-many relationship).
 /// </summary>
 public class Pet
 {
-    /// <summary>Veritabanı birincil anahtarı (otomatik artar)</summary>
+    /// <summary>Database primary key (auto increment)</summary>
     public int Id { get; set; }
 
-    /// <summary>Hayvanın adı (örn: Karabaş, Pamuk)</summary>
+    /// <summary>Pet's name (e.g. Max, Bella)</summary>
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>Hayvanın türü (örn: Dog, Cat, Bird)</summary>
+    /// <summary>Pet's species (e.g. Dog, Cat, Bird)</summary>
     public string Species { get; set; } = string.Empty;
 
-    /// <summary>Hayvanın yaşı (yıl cinsinden)</summary>
+    /// <summary>Pet's age (in years)</summary>
     public int Age { get; set; }
 
-    /// <summary>Hayvanın cinsiyeti (Male/Female)</summary>
+    /// <summary>Pet's gender (Male/Female)</summary>
     public string Gender { get; set; } = string.Empty;
 
     /// <summary>
-    /// Hayvanın klinik/bakım notları.
-    /// Veteriner muayene sonuçları veya grooming notları buraya girilir.
-    /// Örn: "Kuduz aşısı yapıldı", "Tırnak kesimi yapıldı"
+    /// Clinical/grooming notes for the pet.
+    /// Vet examination results or grooming notes go here.
+    /// E.g., "Rabies vaccine administered", "Nails clipped"
     /// </summary>
     public string ClinicalNotes { get; set; } = string.Empty;
 
-    /// <summary>Bu hayvanın sahibini belirten Foreign Key (ClientId)</summary>
+    /// <summary>Foreign Key indicating the owner of this pet (ClientId)</summary>
     public int ClientId { get; set; }
 
-    /// <summary>İlişkili müşteri nesnesi (Navigation Property — Eager Loading için)</summary>
+    /// <summary>Related client object (Navigation Property for Eager Loading)</summary>
     public Client? Client { get; set; }
 
     /// <summary>
-    /// Bu hayvana ait randevular koleksiyonu.
-    /// One-to-Many ilişkisi: Bir hayvanın birden fazla randevusu olabilir.
+    /// Collection of appointments for this pet.
+    /// One-to-Many relationship: A pet can have multiple appointments.
     /// </summary>
     public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 }
