@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Core\\PetClinicApp.Core.csproj": {}
+    "C:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Core\\PetClinicApp.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Core\\PetClinicApp.Core.csproj": {
+    "C:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Core\\PetClinicApp.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Core\\PetClinicApp.Core.csproj",
+        "projectUniqueName": "C:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Core\\PetClinicApp.Core.csproj",
         "projectName": "PetClinicApp.Core",
-        "projectPath": "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Core\\PetClinicApp.Core.csproj",
+        "projectPath": "C:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Core\\PetClinicApp.Core.csproj",
         "packagesPath": "C:\\Users\\90537\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Core\\obj\\",
+        "outputPath": "C:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\DevExpress 25.1\\Components\\Offline Packages",

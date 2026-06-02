@@ -1,53 +1,109 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PetClinicApp.Web</title>
+    <meta name="description" content="Pet Grooming and Veterinary Appointment Scheduler — Book appointments for your pets online." />
+    <title>@ViewData["Title"] - 🐾 PetClinic</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PetClinicApp.Web.styles.css" asp-append-version="true" />
+    <style>
+        /* Navbar özelleştirme */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #2A9D8F !important;
+        }
+        .navbar { background-color: #fff; border-bottom: 2px solid #2A9D8F; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .nav-link { font-weight: 500; }
+        .nav-link:hover { color: #2A9D8F !important; }
+        /* Bildirim alert stilleri */
+        .alert-clinic { background: #d4edda; border-color: #2A9D8F; color: #155724; }
+        .alert-clinic-info { background: #d1ecf1; border-color: #17a2b8; color: #0c5460; }
+        /* Footer */
+        footer { background-color: #f8f9fa; border-top: 2px solid #e9ecef; margin-top: 40px; padding: 20px 0; }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PetClinicApp.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <!-- Ana navigasyon çubuğu -->
+        <nav class="navbar navbar-expand-sm navbar-light">
+            <div class="container">
+                <!-- Site logosu ve ana sayfa linki -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    🐾 PetClinic
+                </a>
+                <!-- Mobil hamburger butonu -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- Navigasyon linkleri -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <!-- Ana sayfa -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">🏠 Dashboard</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">🏠 Home</a>
                         </li>
+                        <!-- Randevu alma sayfası -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Clients" asp-action="Index">👤 Clients</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Book">📅 Book Appointment</a>
                         </li>
+                        <!-- Randevularım sayfası -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Pets" asp-action="Index">🐾 Pets</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="MyAppointments">📋 My Appointments</a>
                         </li>
+                        <!-- Evcil hayvanlar listesi -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Appointments" asp-action="Index">📅 Appointments</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pet" asp-action="Index">🐕 Pets</a>
+                        </li>
+                        <!-- Tüm randevular (genel takvim) -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Index">🗓️ All Appointments</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container mt-3">
+        <!-- Başarı bildirimi (TempData ile taşınır — randevu kaydedilince gösterilir) -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-clinic alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <!-- Bilgi bildirimi (iptal işlemi vb.) -->
+        @if (TempData["InfoMessage"] != null)
+        {
+            <div class="alert alert-clinic-info alert-dismissible fade show" role="alert">
+                @TempData["InfoMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <!-- Ana içerik alanı -->
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - PetClinicApp.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center text-muted">
+            <small>
+                &copy; 2026 - 🐾 PetClinic — SE 410 Project |
+                <strong>Göksun Gürel, Eda Naz Soytürk, Enes Deniz, Barış Dursun</strong> |
+                Izmir University of Economics
+            </small>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

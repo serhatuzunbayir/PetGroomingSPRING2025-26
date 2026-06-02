@@ -1,0 +1,167 @@
+@model PetClinicApp.Web.Models.MyAppointmentsViewModel
+@{
+    ViewData["Title"] = "My Appointments";
+}
+
+<!-- Sayfa başlığı -->
+<h2 class="mb-1 fw-bold" style="color: #2A9D8F;">📋 My Appointments</h2>
+<p class="text-muted mb-4">Select your name to view your past and upcoming appointments.</p>
+
+<!-- Müşteri seçim formu -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <form method="get" asp-action="MyAppointments" id="client-filter-form">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-8">
+                    <label class="form-label fw-semibold">👤 Select Your Name</label>
+                    <!-- Müşteri seçimi dropdown — LINQ filtresi bu değere göre çalışır -->
+                    <select name="clientId" class="form-select" id="client-dropdown">
+                        <option value="">— Select your name —</option>
+                        @foreach (var client in Model.AllClients)
+                        {
+                            if (Model.SelectedClient?.Id == client.Id)
+                            {
+                                <option value="@client.Id" selected>
+                                    @client.FirstName @client.LastName (@client.PhoneNumber)
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@client.Id">
+                                    @client.FirstName @client.LastName (@client.PhoneNumber)
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success w-100" id="btn-filter-appointments">
+                        🔍 View My Appointments
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Müşteri seçilmiş ise randevuları göster -->
+@if (Model.SelectedClient != null)
+{
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0" style="color: #264653;">
+            Appointments for <span style="color: #2A9D8F;">@Model.SelectedClient.FirstName @Model.SelectedClient.LastName</span>
+        </h5>
+        <span class="badge bg-secondary fs-6">@Model.Appointments.Count record(s)</span>
+    </div>
+
+    @if (!Model.Appointments.Any())
+    {
+        <!-- Randevu bulunamadı -->
+        <div class="alert alert-info text-center">
+            <strong>No appointments found.</strong>
+            <a asp-controller="Appointment" asp-action="Book" class="ms-2">Book your first appointment →</a>
+        </div>
+    }
+    else
+    {
+        <!-- Randevu tablosu -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="my-appointments-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Pet</th>
+                        <th>Type</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Fee</th>
+                        <th>Paid</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appt in Model.Appointments)
+                    {
+                        <!-- Randevu durumuna göre satır rengi -->
+                        var rowClass = appt.Status == PetClinicApp.Core.Models.AppointmentStatus.Completed ? "table-success"
+                                     : appt.Status == PetClinicApp.Core.Models.AppointmentStatus.Cancelled ? "table-secondary"
+                                     : ""; // Pending: varsayılan
+
+                        <tr class="@rowClass">
+                            <!-- Hayvan adı -->
+                            <td>
+                                <a asp-controller="Pet" asp-action="Details" asp-route-id="@appt.PetId"
+                                   class="text-decoration-none fw-semibold">
+                                    🐾 @(appt.Pet?.Name ?? "Unknown")
+                                </a>
+                            </td>
+                            <!-- Randevu türü -->
+                            <td>
+                                @if (appt.Type == PetClinicApp.Core.Models.AppointmentType.Veterinary)
+                                {
+                                    <span class="badge bg-danger">🏥 Veterinary</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info text-dark">✂️ Grooming</span>
+                                }
+                            </td>
+                            <!-- Tarih ve saat -->
+                            <td>@appt.AppointmentDate.ToString("dd MMM yyyy, HH:mm")</td>
+                            <!-- Durum -->
+                            <td>
+                                @switch (appt.Status)
+                                {
+                                    case PetClinicApp.Core.Models.AppointmentStatus.Pending:
+                                        <span class="badge bg-warning text-dark">⏳ Pending</span>
+                                        break;
+                                    case PetClinicApp.Core.Models.AppointmentStatus.Completed:
+                                        <span class="badge bg-success">✅ Completed</span>
+                                        break;
+                                    case PetClinicApp.Core.Models.AppointmentStatus.Cancelled:
+                                        <span class="badge bg-secondary">❌ Cancelled</span>
+                                        break;
+                                }
+                            </td>
+                            <!-- Ücret -->
+                            <td>@appt.ServiceFee.ToString("C2")</td>
+                            <!-- Ödeme durumu -->
+                            <td>@(appt.IsPaid ? "✅ Yes" : "❌ No")</td>
+                            <!-- İptal butonu (sadece beklemedeki randevular iptal edilebilir) -->
+                            <td>
+                                @if (appt.Status == PetClinicApp.Core.Models.AppointmentStatus.Pending)
+                                {
+                                    <form asp-action="Cancel" method="post" style="display:inline;"
+                                          onsubmit="return confirm('Cancel this appointment?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@appt.Id" />
+                                        <input type="hidden" name="clientId" value="@Model.SelectedClient.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" id="btn-cancel-@appt.Id">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Yeni randevu al butonu -->
+        <div class="mt-3">
+            <a asp-controller="Appointment" asp-action="Book"
+               class="btn btn-success" id="btn-book-another">
+                📅 Book Another Appointment
+            </a>
+        </div>
+    }
+}
+else if (Context.Request.Query.ContainsKey("clientId"))
+{
+    <!-- Müşteri seçildi ama bulunamadı -->
+    <div class="alert alert-warning">Client not found. Please select a valid name.</div>
+}

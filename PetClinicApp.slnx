@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="PetClinicApp.Core/PetClinicApp.Core.csproj" />
   <Project Path="PetClinicApp.Desktop/PetClinicApp.Desktop.csproj" />
+  <Project Path="PetClinicApp.Tests/PetClinicApp.Tests.csproj" />
   <Project Path="PetClinicApp.Web/PetClinicApp.Web.csproj" />
 </Solution>

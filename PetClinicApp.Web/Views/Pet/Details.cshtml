@@ -1,0 +1,171 @@
+@model PetClinicApp.Core.Models.Pet
+@{
+    ViewData["Title"] = $"{Model.Name}'s Profile";
+
+    // Hayvan türüne göre emoji belirle
+    var emoji = Model.Species?.ToLower() switch
+    {
+        "dog" or "köpek" => "🐕",
+        "cat" or "kedi" => "🐈",
+        "bird" or "kuş" => "🦜",
+        "rabbit" or "tavşan" => "🐇",
+        "fish" or "balık" => "🐠",
+        _ => "🐾"
+    };
+
+    // ViewBag'den randevu listesini al
+    var appointments = ViewBag.Appointments as List<PetClinicApp.Core.Models.Appointment> ?? new();
+}
+
+<!-- Geri dönüş linki -->
+<a asp-controller="Pet" asp-action="Index" class="btn btn-outline-secondary btn-sm mb-3">
+    ← Back to Pets
+</a>
+
+<!-- Hayvan profil kartı -->
+<div class="row g-4">
+
+    <!-- Sol: Hayvan bilgileri -->
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center p-4">
+                <!-- Hayvan emoji ve isim -->
+                <div style="font-size: 5rem;">@emoji</div>
+                <h2 class="fw-bold mt-2" style="color: #2A9D8F;">@Model.Name</h2>
+
+                <!-- Temel bilgiler tablosu -->
+                <table class="table table-borderless text-start mt-3">
+                    <tr>
+                        <th class="text-muted" style="width: 40%;">Species</th>
+                        <td class="fw-semibold">@Model.Species</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Age</th>
+                        <td class="fw-semibold">@Model.Age year(s)</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Gender</th>
+                        <td class="fw-semibold">@Model.Gender</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Owner</th>
+                        <td class="fw-semibold">@(Model.Client?.FirstName) @(Model.Client?.LastName)</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Phone</th>
+                        <td>@(Model.Client?.PhoneNumber)</td>
+                    </tr>
+                </table>
+
+                <!-- Randevu istatistikleri -->
+                <div class="row g-2 mt-2">
+                    <div class="col-6">
+                        <div class="card bg-success text-white py-2">
+                            <div class="fw-bold fs-4">@ViewBag.CompletedCount</div>
+                            <div class="small">Completed</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card bg-warning text-dark py-2">
+                            <div class="fw-bold fs-4">@ViewBag.PendingCount</div>
+                            <div class="small">Pending</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Randevu al butonu -->
+                <a asp-controller="Appointment" asp-action="Book"
+                   class="btn btn-success w-100 mt-3" id="btn-book-for-pet">
+                    📅 Book Appointment
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ: Klinik notları ve randevu geçmişi -->
+    <div class="col-md-7">
+
+        <!-- Klinik notları -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header fw-bold" style="background-color: #2A9D8F; color: white;">
+                🩺 Clinical Notes
+            </div>
+            <div class="card-body">
+                @if (string.IsNullOrWhiteSpace(Model.ClinicalNotes))
+                {
+                    <p class="text-muted fst-italic">No clinical notes recorded yet.</p>
+                }
+                else
+                {
+                    <!-- Klinik notları — satır satır göster -->
+                    @foreach (var line in Model.ClinicalNotes.Split('\n', StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <p class="mb-1">📌 @line</p>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- Randevu geçmişi -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header fw-bold" style="background-color: #264653; color: white;">
+                📅 Appointment History (@appointments.Count)
+            </div>
+            <div class="card-body p-0">
+                @if (!appointments.Any())
+                {
+                    <p class="text-muted p-3">No appointments recorded for this pet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover mb-0" id="pet-appointment-history">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var appt in appointments)
+                                {
+                                    <tr>
+                                        <td>@appt.AppointmentDate.ToString("dd MMM yyyy")</td>
+                                        <td>
+                                            @if (appt.Type == PetClinicApp.Core.Models.AppointmentType.Veterinary)
+                                            {
+                                                <span class="badge bg-danger">🏥 Vet</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-info text-dark">✂️ Groom</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @switch (appt.Status)
+                                            {
+                                                case PetClinicApp.Core.Models.AppointmentStatus.Pending:
+                                                    <span class="badge bg-warning text-dark">⏳</span>
+                                                    break;
+                                                case PetClinicApp.Core.Models.AppointmentStatus.Completed:
+                                                    <span class="badge bg-success">✅</span>
+                                                    break;
+                                                case PetClinicApp.Core.Models.AppointmentStatus.Cancelled:
+                                                    <span class="badge bg-secondary">❌</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td>@appt.ServiceFee.ToString("C2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

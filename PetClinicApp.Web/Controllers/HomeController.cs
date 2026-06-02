@@ -1,18 +1,13 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PetClinicApp.Web.Models;
-using PetClinicApp.Core.Services;
 
 namespace PetClinicApp.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ClinicService _service = new();
-
     public IActionResult Index()
     {
-        ViewBag.Summary = _service.GetClinicSummary();
-        ViewBag.TodaysAppointments = _service.GetTodaysAppointments();
         return View();
     }
 

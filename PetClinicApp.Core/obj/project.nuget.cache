@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rhZ2UNxffCE=",
+  "dgSpecHash": "QKOc+NwryBU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Core\\PetClinicApp.Core.csproj",
+  "projectFilePath": "C:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Core\\PetClinicApp.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\90537\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\90537\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",

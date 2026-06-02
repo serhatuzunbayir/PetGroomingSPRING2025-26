@@ -3,12 +3,19 @@ using PetClinicApp.Core.Services;
 
 namespace PetClinicApp.Desktop;
 
+/// <summary>
+/// Masaüstü uygulaması randevu yönetim sayfası.
+/// Randevu listeleme, ekleme, silme, güncelleme ve filtreleme işlemlerini yapar.
+/// </summary>
 public partial class AppointmentsPage : ContentPage
 {
     private readonly ClinicService _service = new();
     private Appointment? _selectedAppointment = null;
     private List<Pet> _pets = new();
 
+    /// <summary>
+    /// Sayfa constructor'ı. Event listener'lar burada bağlanır.
+    /// </summary>
     public AppointmentsPage()
     {
         InitializeComponent();
@@ -16,6 +23,9 @@ public partial class AppointmentsPage : ContentPage
         _service.OnAppointmentDeleted += OnAppointmentNotification;
     }
 
+    /// <summary>
+    /// Sayfa her göründüğünde listeleri günceller.
+    /// </summary>
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -23,6 +33,9 @@ public partial class AppointmentsPage : ContentPage
         LoadAppointments();
     }
 
+    /// <summary>
+    /// Delegate event'i tetiklendiğinde ekrana bildirim gösterir.
+    /// </summary>
     private async void OnAppointmentNotification(string message, object entity)
     {
         await DisplayAlert("Notification", message, "OK");

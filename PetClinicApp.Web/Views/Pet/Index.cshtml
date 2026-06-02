@@ -1,0 +1,74 @@
+@model List<PetClinicApp.Core.Models.Pet>
+@{
+    ViewData["Title"] = "Pet Profiles";
+}
+
+<!-- Başlık -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1 fw-bold" style="color: #2A9D8F;">🐾 Pet Profiles</h2>
+        <p class="text-muted mb-0">Browse all registered pets and their details.</p>
+    </div>
+    <span class="badge bg-secondary fs-6">@ViewBag.TotalPets pet(s) registered</span>
+</div>
+
+@if (!Model.Any())
+{
+    <!-- Hayvan bulunamadı -->
+    <div class="alert alert-info text-center">
+        No pets registered yet. Please contact the clinic staff.
+    </div>
+}
+else
+{
+    <!-- Hayvan kartları (grid görünümü) -->
+    <div class="row g-4" id="pet-cards-grid">
+        @foreach (var pet in Model)
+        {
+            <!-- Her hayvan için kart -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card h-100 shadow-sm border-0 pet-card">
+                    <div class="card-body text-center p-4">
+                        <!-- Hayvan türüne göre emoji seçimi -->
+                        <div style="font-size: 3rem;">
+                            @{
+                                var emoji = pet.Species?.ToLower() switch
+                                {
+                                    "dog" or "köpek" => "🐕",
+                                    "cat" or "kedi" => "🐈",
+                                    "bird" or "kuş" => "🦜",
+                                    "rabbit" or "tavşan" => "🐇",
+                                    "fish" or "balık" => "🐠",
+                                    _ => "🐾"
+                                };
+                            }
+                            @emoji
+                        </div>
+                        <!-- Hayvan bilgileri -->
+                        <h5 class="card-title fw-bold mt-2">@pet.Name</h5>
+                        <p class="text-muted mb-1">
+                            <strong>Species:</strong> @pet.Species | 
+                            <strong>Age:</strong> @pet.Age yr | 
+                            <strong>Gender:</strong> @pet.Gender
+                        </p>
+                        <!-- Sahip bilgisi -->
+                        <p class="text-muted small mb-3">
+                            <strong>Owner:</strong> @(pet.Client?.FirstName) @(pet.Client?.LastName)
+                        </p>
+                        <!-- Detay sayfasına link -->
+                        <a asp-controller="Pet" asp-action="Details" asp-route-id="@pet.Id"
+                           class="btn btn-outline-success btn-sm" id="btn-pet-details-@pet.Id">
+                            View Profile →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<style>
+    /* Kart hover efekti */
+    .pet-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .pet-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important; }
+</style>

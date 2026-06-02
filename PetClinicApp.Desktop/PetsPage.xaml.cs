@@ -12,17 +12,27 @@ public class ClientDisplayItem
     public string DisplayName { get; set; } = string.Empty;
 }
 
+/// <summary>
+/// Masaüstü uygulaması evcil hayvan yönetim sayfası.
+/// Evcil hayvan CRUD (Ekle, Oku, Güncelle, Sil) işlemlerini sağlar.
+/// </summary>
 public partial class PetsPage : ContentPage
 {
     private readonly ClinicService _service = new();
     private Pet? _selectedPet = null;
     private List<ClientDisplayItem> _clientItems = new();
 
+    /// <summary>
+    /// Sayfa constructor'ı.
+    /// </summary>
     public PetsPage()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Sayfa her göründüğünde listeleri günceller.
+    /// </summary>
     protected override void OnAppearing()
     {
         base.OnAppearing();

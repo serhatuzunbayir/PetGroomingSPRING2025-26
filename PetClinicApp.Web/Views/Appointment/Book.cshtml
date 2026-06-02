@@ -1,0 +1,123 @@
+@model PetClinicApp.Web.Models.BookAppointmentViewModel
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<!-- Randevu alma formu başlığı -->
+<h2 class="mb-1 fw-bold" style="color: #2A9D8F;">📅 Book an Appointment</h2>
+<p class="text-muted mb-4">Fill in the form below to schedule a veterinary or grooming appointment for your pet.</p>
+
+<!-- Onay mesajı (Delegate/Event bildirimi sonucu) -->
+@if (Model.ConfirmationMessage != null)
+{
+    <div class="alert alert-success">@Model.ConfirmationMessage</div>
+}
+
+<!-- Randevu formu -->
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <form asp-action="Book" method="post" id="booking-form">
+            @Html.AntiForgeryToken()
+
+            <!-- BÖLÜM 1: Müşteri Seçimi -->
+            <h5 class="fw-bold mb-3" style="color: #264653;">👤 Step 1: Select Your Name</h5>
+            <div class="mb-3">
+                <label asp-for="SelectedClientId" class="form-label fw-semibold">Client Name</label>
+                <!-- Müşteri dropdown — seçilince AJAX ile hayvanları getirir -->
+                <select asp-for="SelectedClientId" class="form-select" id="client-select"
+                        asp-items="@(new SelectList(Model.Clients, "Id", "FirstName"))">
+                    <option value="">— Select your name —</option>
+                </select>
+                <!-- Soyad bilgisi (görsel) -->
+                <div id="client-lastname-display" class="form-text text-muted"></div>
+                <span asp-validation-for="SelectedClientId" class="text-danger"></span>
+            </div>
+
+            <hr />
+
+            <!-- BÖLÜM 2: Hayvan Seçimi -->
+            <h5 class="fw-bold mb-3" style="color: #264653;">🐾 Step 2: Select Your Pet</h5>
+            <div class="mb-3">
+                <label asp-for="SelectedPetId" class="form-label fw-semibold">Pet</label>
+                <!-- Hayvan dropdown — müşteri seçilince AJAX ile dolar -->
+                <select asp-for="SelectedPetId" class="form-select" id="pet-select">
+                    <option value="">— Select a client first —</option>
+                </select>
+                <span asp-validation-for="SelectedPetId" class="text-danger"></span>
+            </div>
+
+            <hr />
+
+            <!-- BÖLÜM 3: Randevu Detayları -->
+            <h5 class="fw-bold mb-3" style="color: #264653;">📋 Step 3: Appointment Details</h5>
+
+            <!-- Randevu türü: Veterinary veya Grooming -->
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label fw-semibold">Appointment Type</label>
+                <select asp-for="Type" class="form-select" id="appointment-type">
+                    <option value="">— Select type —</option>
+                    <option value="0">🏥 Veterinary</option>
+                    <option value="1">✂️ Grooming</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <!-- Randevu tarihi ve saati -->
+            <div class="mb-3">
+                <label asp-for="AppointmentDate" class="form-label fw-semibold">Date & Time</label>
+                <input asp-for="AppointmentDate" type="datetime-local" class="form-control" id="appointment-date"
+                       min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-ddTHH:mm")" />
+                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+            </div>
+
+            <!-- Hizmet bedeli (opsiyonel) -->
+            <div class="mb-4">
+                <label asp-for="ServiceFee" class="form-label fw-semibold">Service Fee (optional)</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input asp-for="ServiceFee" type="number" step="0.01" min="0" class="form-control" placeholder="0.00" />
+                </div>
+                <span asp-validation-for="ServiceFee" class="text-danger"></span>
+            </div>
+
+            <!-- Kaydet butonu -->
+            <button type="submit" class="btn btn-success btn-lg w-100" id="btn-confirm-booking">
+                ✅ Confirm Appointment
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        // Müşteri seçilince AJAX ile hayvanları getir
+        document.getElementById('client-select').addEventListener('change', function () {
+            const clientId = this.value;
+            const petSelect = document.getElementById('pet-select');
+
+            // Seçim kaldırıldıysa hayvan listesini sıfırla
+            if (!clientId) {
+                petSelect.innerHTML = '<option value="">— Select a client first —</option>';
+                return;
+            }
+
+            // AJAX isteği: seçilen müşterinin hayvanlarını getir
+            fetch(`/Appointment/GetPetsByClient?clientId=${clientId}`)
+                .then(res => res.json())
+                .then(pets => {
+                    petSelect.innerHTML = '<option value="">— Select your pet —</option>';
+                    // Her hayvanı dropdown'a ekle
+                    pets.forEach(pet => {
+                        const option = document.createElement('option');
+                        option.value = pet.id;
+                        option.textContent = `${pet.name} (${pet.species})`;
+                        petSelect.appendChild(option);
+                    });
+                })
+                .catch(() => {
+                    petSelect.innerHTML = '<option value="">Error loading pets</option>';
+                });
+        });
+    </script>
+}

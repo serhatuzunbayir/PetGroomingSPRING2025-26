@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tIwDSv1wJ5o=",
+  "dgSpecHash": "EMxvtKTiPnU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\90537\\OneDrive\\Belgeler\\GitHub\\PetGroomingSPRING2025-26\\PetClinicApp.Web\\PetClinicApp.Web.csproj",
+  "projectFilePath": "c:\\Users\\90537\\Downloads\\PetGroomingSPRING2025-26-main\\PetGroomingSPRING2025-26-main\\PetClinicApp.Web\\PetClinicApp.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\90537\\.nuget\\packages\\microsoft.data.sqlite.core\\10.0.7\\microsoft.data.sqlite.core.10.0.7.nupkg.sha512",
     "C:\\Users\\90537\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.7\\microsoft.entityframeworkcore.10.0.7.nupkg.sha512",
